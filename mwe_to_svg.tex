@@ -1,0 +1,50 @@
+% 这是一个将tikz图片转换成多张SVG的示例文件，使用pdf2svg来实现转换
+% 這是一個將tikz圖片轉換成多張SVG的示例文件，使用pdf2svg來實現轉換
+% This is a demo file for tikz to multiple SVGs using pdf2svg
+\documentclass[tikz, convert, convert={outext=.svg, command=\unexpanded{
+		pdf2svg \infile\space \outfile\space all
+}}]{standalone}
+
+\usepackage{xeCJK}
+\setCJKmainfont{Microsoft YaHei}
+
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,backgrounds,positioning,fit,petri}
+%\usetikzlibrary{arrows.meta,backgrounds,decorations.pathmorphing,backgrounds,positioning,fit,petri}
+
+\begin{document}
+	
+
+
+
+\begin{tikzpicture}
+	[bend angle=45,
+	pre/.style={<-,shorten <=1pt,>={Stealth[round]},semithick},
+	post/.style={->,shorten >=1pt,>={Stealth[round]},semithick}]
+	\node(B) {B硬币};
+	\node (A) [below left=of B,yshift=0mm,xshift=-5mm] {A硬币}
+	edge [post]   node [auto,rotate=30,xshift=4mm] {正$\pi$}         (B);
+	\node(C) [below right = of A,yshift=0mm,xshift=5mm] {C银币}
+	edge [pre]  node [auto,rotate=-30,xshift=7mm] {反$1-\pi$}         (A);
+
+	\begin{scope}[on background layer]
+		\node [fit=(B)(C) ,draw=green!50!black,thick](中间变量){};
+		
+	\end{scope}
+    \node (zheng1)  [above right=of B,yshift=-5mm,xshift=5mm] {正}
+	edge [pre]   node [auto,swap,rotate=30,xshift=2mm] {$p$}         (B);
+	\node (fang1)  [below right=of B,yshift=5mm,xshift=5mm] {反}
+	edge [pre]   node [auto,swap,rotate=-30,xshift=-6mm] {$1-p$}         (B);
+      \node (zheng2)  [above right=of C,yshift=-5mm,xshift=5mm] {正}
+    edge [pre]   node [auto,swap,rotate=30,xshift=2mm] {$q$}         (C);
+    \node (fang2)  [below right=of C,yshift=5mm,xshift=5mm] {反}
+    edge [pre]   node [auto,swap,rotate=-30,xshift=-6mm] {$1-q$}         (C);
+	\node [below=of 中间变量,yshift=10mm]{中间变量};
+	\begin{scope}
+		\node [fit=(zheng1)(zheng2)(fang1)(fang2) ,draw=orange!50!black,very thick](结果){};
+	\end{scope}
+	\node[below =of 结果,yshift=10mm] () {结果};
+\end{tikzpicture}
+
+\end{document}
